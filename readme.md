@@ -1,49 +1,25 @@
-Sample for dockerize dotnetcore application composed:
-*1 SQL Server
-*1 api fullrest write in dotnet core
-*1 web site in react
+# docker-dotnet
+Sample for dockerize dotnetcore application composed: 
+ - 1 web site in react
+ - 1 api fullrest write in dotnet core
+ - 1 SQL Server
+# Solution
+It contains 3 projects. Each project contains a readme file that details the principal commands.
+## Web
+React project in typescript create with create-react-app. It contains the Dockerfile that allows to create the docker. You must build the application before:
 
-# dockerize environnement
-docker-compose -f docker-compose-build.yml up --build -d
-docker-compose up --build
-docker-compose up -d
-docker-compose kill
-docker-compose rm -f
+    yarn build
+## API
+Api in dotnet core that allows to connect to the database. You must build the application before run docker
 
-# http://localhost:3000/api/tasks/5 ==> connectionString
-# http://localhost:3000/api/tasks
+    dotnet publish -o ./publish
+## Sql
+Database for data storage. A script creates the database when docker starts.
 
-docker stop $(docker ps -a -q)
-docker rm $(docker ps -a -q)
+## Docker-compose
+You can use the following command line for build docker image:
 
-docker exec -ti xxxxxx bash
+    docker-compose -f docker-compose-build.yml up --build -d
+else use 
 
-# connection sur Azure
-az login
-az account list --output table
-
-# connection sur le container kubernetes
-az acr login --name containerKubernetes
-
-# retourne le nom interne du container registry
-az acr list --resource-group Kubernetes --query "[].{acrLoginServer:loginServer}" --output table
-
-# tag et push l'image sql
-docker tag mcr.microsoft.com/mssql/server:2017-latest containerkubernetes.azurecr.io/sql:v1
-docker push containerkubernetes.azurecr.io/sql:v1
-
-# tag et push l'image api
-docker tag complexapplication_api containerkubernetes.azurecr.io/api:v1
-docker push containerkubernetes.azurecr.io/api:v1
-
-
-# liste des images dans le container registry
-az acr repository list --name containerkubernetes --output table
-
-
-
-az aks get-credentials --resource-group kubernetes --name clusterKubernetes
-kubectl apply -f azure.yaml
-
-kubectl scale --replicas=5 deployment/api
-kubectl scale --replicas=0 deployment/api
+    docker-compose up -d
