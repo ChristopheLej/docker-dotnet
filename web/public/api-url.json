@@ -1,0 +1,5 @@
+{
+    "path":"http://localhost:5000/api/v1/",
+    "pathExternal":"http://dev-front.northeurope.cloudapp.azure.com:5000/api/v1/"
+
+}

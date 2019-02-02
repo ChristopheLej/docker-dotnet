@@ -1,0 +1,33 @@
+version: "3"
+services:
+  api:
+    image: "api:latest"
+    hostname: api
+    ports:
+      - "5001:443"
+      - "5000:80"
+    container_name: api
+    depends_on:
+      - sql
+    links:
+      - sql:db
+
+  web:
+    image: "web:latest"
+    hostname: web
+    ports:
+      - "80:5000"
+    container_name: web
+    depends_on:
+      - api
+
+  sql:
+    image: "sql:latest"
+    hostname: sql
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "MyPassword001"
+      ACCEPT_EULA: "Y"
+    container_name: sql
+ 
